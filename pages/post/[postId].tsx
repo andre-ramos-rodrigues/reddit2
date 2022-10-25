@@ -10,11 +10,15 @@ import toast from 'react-hot-toast'
 import Avatar from '../../components/Avatar'
 import ReactTimeago from 'react-timeago'
 
+type FormValues = {
+  comment: string
+}
+
 
 const PostPage = () => {
   const router = useRouter()
   const {data: session} = useSession()
-  const [addComment, { data: comment }] = useMutation(ADD_COMMENT, {
+  const [addComment, { data: commentData }] = useMutation(ADD_COMMENT, {
     refetchQueries: [GET_POST_BY_ID, 'getPostById']
   })
 
@@ -37,11 +41,9 @@ const PostPage = () => {
     watch,
     setValue,
     formState: {errors}
-  } = useForm<FormData>()
+  } = useForm<FormValues>()
 
   const onSubmit: SubmitHandler<FormData> = async(data) => {
-    console.log(data)
-
     const notification = toast.loading('Posting your comment')
 
     await addComment({
@@ -53,6 +55,7 @@ const PostPage = () => {
     })
 
     setValue('comment', '')
+    console.log('the bug is here', commentData)
 
     toast.success('Comment Successfully Posted', {
       id: notification
