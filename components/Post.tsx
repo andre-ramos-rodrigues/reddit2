@@ -16,7 +16,7 @@ type Props = {
 }
 
 const Post = ({post}: Props) => {
-  const [vote, setVote] = useState<boolean | undefined>()
+  const [vote, setVote] = useState<any>()
   const {data: session} = useSession()
 
   // fetching votes by post_id
