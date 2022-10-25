@@ -41,21 +41,20 @@ const PostPage = () => {
     watch,
     setValue,
     formState: {errors}
-  } = useForm<FormValues>()
+  } = useForm<FormData | FormValues | any>()
 
-  const onSubmit: SubmitHandler<FormData> = async(data) => {
+  const onSubmit: SubmitHandler<FormData | FormValues | any> = async(data) => {
     const notification = toast.loading('Posting your comment')
-
+    console.log(data)
     await addComment({
       variables: {
         post_id: router.query.postId,
         username: session?.user?.name,
-        text: data.comment
+        text: data?.comment
       }
     })
 
     setValue('comment', '')
-    console.log('the bug is here', commentData)
 
     toast.success('Comment Successfully Posted', {
       id: notification
